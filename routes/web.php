@@ -14,3 +14,22 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test','TestController@index');
+Auth::routes();
+
+
+Route::group([], function(){
+	Route::get('/settings/{tag}','SettingController@index')->name('settings');
+});
+
+Route::group([], function(\Illuminate\Routing\Router $router){
+    $router->resource('model','ModelController',['names'=>[
+        'store' => 'model.store'
+    ]]);
+});
+
+
+Route::get('/pinyin/{str}','UtilsController@pinyin');
+
+Route::get('/home', 'HomeController@index')->name('home');
