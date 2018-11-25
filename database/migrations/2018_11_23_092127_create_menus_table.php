@@ -20,6 +20,8 @@ class CreateMenusTable extends Migration
             $table->string('title', 50);
             $table->string('icon', 50);
             $table->string('uri', 50)->nullable();
+
+            $table->index(['title']);
         });
     }
 

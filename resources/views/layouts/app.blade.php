@@ -112,6 +112,12 @@
             width: 80px;
             line-height: 35px;
         }
+        .menu-header-icon{
+            font-size: 20px;
+            margin-top: 1px;
+            margin-right: 10px; 
+            margin-left: 2px;
+        }
     </style>
 </head>
 <body class="theme-red">
@@ -155,7 +161,7 @@
     <div class="container-fluid" id="pjax-container" style="margin: 0;padding: 0;">
         <section class="content-header">
             <h1>
-                菜单
+                @yield('breadcrumb_title')
                 <small>列表</small>
             </h1>
 

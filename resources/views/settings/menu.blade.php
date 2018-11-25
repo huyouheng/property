@@ -5,15 +5,17 @@
             <div class="box">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a class="btn btn-primary btn-xs tree-5bf76b0ce8a67-tree-tools" data-action="expand">
+                        <a class="btn btn-primary btn-xs" data-action="expand">
                             <i class="fa fa-plus-square-o"></i>&nbsp;展开
                         </a>
-                        <a class="btn btn-primary btn-xs tree-5bf76b0ce8a67-tree-tools" data-action="collapse">
+                        <a class="btn btn-primary btn-xs" data-action="collapse">
                             <i class="fa fa-minus-square-o"></i>&nbsp;收起
                         </a>
                     </div>
                     <div class="panel-body">
-
+                        <ul class="list-group">
+                            {!! $menusLists !!}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -32,15 +34,7 @@
                                 <div style="flex:1;">
                                     <select name="parent_id" id="parent" class="form-control">
                                         <option value="0">root</option>
-                                        @foreach($menus as $menu)
-                                            <option value="{{$menu['id']}}">{{$menu['title']}}</option>
-                                            @if(isset($menu['children']))
-                                                @foreach($menu['children'] as $child)
-                                                    <option value="{{$child['id']}}">&nbsp;&nbsp;&nbsp;&nbsp;{{$child['title']}}</option>
-                                                @endforeach
-                                            @endif
-
-                                        @endforeach
+                                        {!! $menuOptions !!}
                                     </select>
                                 </div>
                             </div>
@@ -71,9 +65,6 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
     <script>
         function parsePath(value) {
             if (value) {

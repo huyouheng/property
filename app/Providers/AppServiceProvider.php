@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Utils\PHPTree;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected static $isInit = false;
     /**
      * Bootstrap any application services.
      *
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        list($a,$b,$leftMenus) = PHPTree::getMenuTree();
+        view()->share('leftMenus',$leftMenus);
+        
     }
 
     /**
