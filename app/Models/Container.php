@@ -9,6 +9,15 @@ class Container extends Model
     protected $table = 'containers';
 
     protected $fillable = [
-    	'type_id', 'field_name', 'is_sensitive','is_show'
+    	'type_id', 'field_name', 'is_sensitive','field_type'
     ];
+
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
+    public function contents()
+    {
+        return $this->hasMany(Content::class, 'container_id', 'id');
+    }
 }

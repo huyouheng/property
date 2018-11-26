@@ -8,11 +8,6 @@ $(function () {
         setSkinListHeightAndScroll(false);
         setSettingListHeightAndScroll(false);
     });
-    $('#menuIcon').iconpicker({
-        emptyIcon: true,
-        hasSearch: true,
-        placement: 'bottomLeft'
-    });
 });
 
 //Skin changer

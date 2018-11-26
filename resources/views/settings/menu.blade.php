@@ -50,7 +50,7 @@
                             </div>
                             <div style="display: flex;margin:10px 0">
                                 <label for="" class="menu-label">图标</label>
-                                <input type="text" name="menuIcon" id="menuIcon" required class="form-control" style="flex: 1;">
+                                <input type="text" name="menuIcon" id="menuIcon" value="fa-bars" class="form-control" style="flex: 1;">
                                 <span class="input-group-addon" style="background: #fff;border: 0;"></span>
                             </div>
                         </div>
@@ -66,6 +66,11 @@
         </div>
     </div>
     <script>
+        $('#menuIcon').iconpicker({
+            emptyIcon: true,
+            hasSearch: true,
+            placement: 'bottomLeft'
+        });
         function parsePath(value) {
             if (value) {
                 $.ajax({

@@ -25,13 +25,29 @@ Route::group([], function(){
 
 Route::group([], function(\Illuminate\Routing\Router $router){
     $router->resource('model','ModelController',['names'=>[
-        'store' => 'model.store'
+        'store' => 'model.store',
+        'show'  => 'model.show',
+        'edit'  => 'model.edit',
+        'update'  => 'model.update',
     ]]);
     $router->get('/create-field/{model}','ModelController@createField')->name('model.create.field');
     $router->post('/store-field-name/{model}','ModelController@storeFieldName')->name('model.store.fieldname');
 
     $router->get('/create-value/{model}','ModelController@createFieldValue')->name('model.create.fieldvalue');
     $router->post('/store-field-value/{model}','ModelController@storeFieldValue')->name('model.store.fieldvalue');
+    $router->delete('/deleteContents','ModelController@deleteContent');
+
+    $router->get('/is-sensitive/{id}','UtilsController@isSensitive')->name('sensitive.field');
+    $router->get('/del-field/{id}','UtilsController@delField')->name('delete.field');
+
+    //FileManager
+    $router->get('media-manager', 'FileManageController@index')->name('media-index');
+    $router->get('media-download', 'FileManageController@download')->name('media-download');
+    $router->delete('media-delete', 'FileManageController@delete')->name('media-delete');
+    $router->post('media-new-folder', 'FileManageController@newFolder')->name('media-new-folder');
+    $router->post('media-upload', 'FileManageController@upload')->name('media-upload');
+    $router->put('media-move', 'FileManageController@move')->name('media-move');
+
 
 });
 

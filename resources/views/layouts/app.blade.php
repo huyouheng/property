@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{{ asset("/vendor/nprogress/nprogress.css") }}">
     <link rel="stylesheet" href="{{ asset("/vendor/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/vendor/font-awesome/css/font-awesome.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("/vendor/sweetalert/dist/sweetalert.css") }}">
     <!-- header js -->
     <!-- Jquery Core Js -->
     <script src="/js/jquery.min.js"></script>
@@ -43,6 +44,7 @@
     <script src="{{ asset('/vendor/jquery-pjax/jquery.pjax.js' )}}"></script>
     <script src="{{ asset ("/vendor/nprogress/nprogress.js") }}"></script>
     <script src="{{ asset ("/vendor/toastr/build/toastr.min.js") }}"></script>
+    <script src="/vendor/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
     <style>
         .navbar-header {
             padding: 0px 0px 0px 7px;
@@ -57,7 +59,7 @@
         }
 
         section.content {
-            margin: 56px 15px 0 240px;
+            margin: 36px 15px 0 240px;
         }
 
         .sidebar {
@@ -118,6 +120,16 @@
             margin-right: 10px; 
             margin-left: 2px;
         }
+        .operation{
+            width: 25px;
+            height: 23px;
+            /*position: absolute;*/
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+        }
+
+
     </style>
 </head>
 <body class="theme-red">
@@ -185,8 +197,26 @@
 <!-- Demo Js -->
 <script src="/js/demo.js"></script>
 <script src="/js/bootstrap-select.js"></script>
-<script src="/vendor/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
 <script src="/js/initPjax.js"></script>
+<script src="{{ asset ("/vendor/sweetalert/dist/sweetalert.min.js") }}"></script>
+<script>
+    function LA() {
+    }
+
+    LA.token = "{{ csrf_token() }}";
+    function deleteTip(obj)
+    {
+        swal({
+            title: "确认删除?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确认",
+            closeOnConfirm: false,
+            cancelButtonText: "取消"
+        },obj);
+    }
+</script>
 @yield('script')
 </body>
 </html>

@@ -20,6 +20,12 @@ class Menu extends Model
 
     public function container()
     {
-    	return $this->hasMany(Container::class,'type_id','id');
+    	return $this->hasMany(Container::class,'type_id','id')->orderBy('id');
+    }
+
+    public function containerAndContent()
+    {
+        return $this->hasMany(Container::class,'type_id','id')->with('contents')
+            ->orderBy('id');
     }
 }
