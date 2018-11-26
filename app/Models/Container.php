@@ -9,6 +9,6 @@ class Container extends Model
     protected $table = 'containers';
 
     protected $fillable = [
-    	'type_id', 'field_name', 'field_value', 'is_sensitive', 'is_show'
+    	'type_id', 'field_name', 'is_sensitive','is_show'
     ];
 }

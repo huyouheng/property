@@ -28,7 +28,11 @@ Route::group([], function(\Illuminate\Routing\Router $router){
         'store' => 'model.store'
     ]]);
     $router->get('/create-field/{model}','ModelController@createField')->name('model.create.field');
+    $router->post('/store-field-name/{model}','ModelController@storeFieldName')->name('model.store.fieldname');
+
+    $router->get('/create-value/{model}','ModelController@createFieldValue')->name('model.create.fieldvalue');
     $router->post('/store-field-value/{model}','ModelController@storeFieldValue')->name('model.store.fieldvalue');
+
 });
 
 

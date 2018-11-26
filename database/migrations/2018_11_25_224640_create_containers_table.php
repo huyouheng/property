@@ -17,10 +17,10 @@ class CreateContainersTable extends Migration
             $table->increments('id');
             $table->integer('type_id')->unsigned();
             $table->string('field_name');
-            $table->string('field_value')->nullable();
             $table->smallInteger('is_sensitive')->default(0);
             $table->smallInteger('is_show')->default(1);
-
+            
+            $table->index(['type_id']);
             $table->timestamps();
         });
     }

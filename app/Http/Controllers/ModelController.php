@@ -54,12 +54,12 @@ class ModelController extends Controller
     }
     public function show($model)
     {
-        info(1);
-        $menu =  Menu::where('uri','/model/'.$model)->first();
+        $menu =  Menu::with('container')->where('uri','/model/'.$model)->first();
         if (is_null($menu)) {
             admin_toastr('错误的模块','error');
             return back();
         }
+
         return view('models.show',compact(['menu']));
     }
 
@@ -73,7 +73,7 @@ class ModelController extends Controller
         return view('models.create-field',compact(['menu','model']));
     }
 
-    public function storeFieldValue(Request $request,$model)
+    public function storeFieldName(Request $request,$model)
     {
         $menu =  Menu::where('uri','/model/'.$model)->first();
         if (is_null($menu)) {
@@ -81,22 +81,36 @@ class ModelController extends Controller
             return back();
         }
         $field_name = $request->get('field_name');
-        $field_value = $request->get('field_value');
         $is_sensitive = $request->get('is_sensitive');
         $is_show = $request->get('is_show');
-        if ($field_name && $field_value&&$is_sensitive&&$is_sensitive) {
-            for ($i = 0; $i < count($field_name); $i++) {
-                $data = [
-                    'type_id' => $menu->id,
-                    'field_name' => $field_name[$i],
-                    'field_value' => $field_value[$i],
-                    'is_sensitive' => $is_sensitive[$i],
-                    'is_show' => $is_show[$i],
-                ];
-                Container::create($data);
-            }
+        if ($field_name &&$is_sensitive&&$is_sensitive) {
 
-            info($data);
-        } 
+            foreach ($field_name as $key => $value) {
+                $tmp = [
+                    'type_id' => $menu->id,
+                    'field_name' => $value,
+                    'is_sensitive' => $is_sensitive[$key],
+                    'is_show' => $is_show[$key],
+                ];
+                Container::create($tmp);
+            }
+        }
+    }
+
+    //显示添加value的页面
+    public function createFieldValue($model)
+    {
+        $menu =  Menu::with('container')->where('uri','/model/'.$model)->first();
+        if (is_null($menu)) {
+            admin_toastr('错误的模块','error');
+            return back();
+        }
+
+        return view('models.store-value',compact(['menu','model']));
+    }
+
+    public function storeFieldValue(Request $request,$model)
+    {
+        
     }
 }

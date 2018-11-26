@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Container;
 
 class Menu extends Model
 {
@@ -15,5 +16,10 @@ class Menu extends Model
     public function children()
     {
         return $this->hasMany(self::class,'parent_id','id');
+    }
+
+    public function container()
+    {
+    	return $this->hasMany(Container::class,'type_id','id');
     }
 }
