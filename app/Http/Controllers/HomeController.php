@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Container;
+use App\Models\Content;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +26,14 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return view('home',compact(['user']));
+        $content = Content::where('field_value',$user->email)->first();
+        $uuid = $content->uuid;
+        $values = Content::with('container')->where('uuid',$uuid)->get();
+        $value = collect($values)->sortBy(function ($item, $key) {
+            return $item['container']['order'];
+        });
+        $values = $value->all();
+
+        return view('home',compact(['user','values']));
     }
 }

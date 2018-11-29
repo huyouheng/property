@@ -68,27 +68,25 @@ class ModelController extends Controller
         $datas = $menu->containerAndContent;
 
         $values = [];
+        $counts = [];
+        foreach ($datas as $keys => $items) {
+            $counts[] = count($items['contents']);
+        }
+        $counts = count($counts) ? max($counts) : 0;
 
         foreach ($datas as $keys => $items) {
 
             if (!count($items['contents'])) {
                 $tmp = [];
-                $tmp = array_pad($tmp, count($datas[0]['contents']), ['field_value' => '', 'id' => '']);
+                $tmp = array_pad($tmp, $counts, ['field_value' => '', 'id' => '']);
                 $items->contents = collect($tmp);
             }
 
-            if ($items->is_sensitive) {
-                foreach ($items->contents as $key => $item) {
-                    $values[$key]['data'][$items['field_name']] = '...';
-                    $values[$key]['ids'][] = $item['id'];
-                    $values[$key]['field_type'][] = $items->field_type;
-                }
-            } else {
-                foreach ($items->contents as $key => $item) {
-                    $values[$key]['data'][$items['field_name']] = $item['field_value'];
-                    $values[$key]['ids'][] = $item['id'];
-                    $values[$key]['field_type'][] = $items->field_type;
-                }
+            foreach ($items->contents as $key => $item) {
+                $values[$key]['data'][$items['field_name']] = ($items->is_sensitive == 1) ? '...' : $item['field_value'];
+                $values[$key]['ids'][] = $item['id'];
+                $values[$key]['field_type'][] = $items->field_type;
+                $values[$key]['uuid'][] = $item->uuid;
             }
         }
 
@@ -116,25 +114,53 @@ class ModelController extends Controller
     //存储模块字段
     public function storeFieldName(Request $request, $model)
     {
-        $menu = Menu::where('uri', '/model/' . $model)->first();
+        $menu = Menu::with('container')->where('uri', '/model/' . $model)->first();
+
         if (is_null($menu)) {
             admin_toastr('错误的模块', 'error');
             return back();
         }
+
         $field_name = $request->get('field_name');
         $is_sensitive = $request->get('is_sensitive');
         $field_type = $request->get('field_type');
+        $sigleSelect = $request->get('sigleSelect');
+
+        $count = $menu->container()->count();
+
+        $containerIds = array_column($menu->container->toArray(), 'id');
+
+        $contentUids = DB::table('contents')
+            ->whereIn('container_id', $containerIds)
+            ->select('uuid')
+            ->groupBy('uuid')
+            ->get();
 
         if ($field_name && $is_sensitive && $is_sensitive) {
 
             foreach ($field_name as $key => $value) {
-                $tmp = [
-                    'type_id' => $menu->id,
-                    'field_name' => $value,
-                    'is_sensitive' => $is_sensitive[$key],
-                    'field_type' => $field_type[$key],
-                ];
-                Container::create($tmp);
+                if ($value) {
+                    $select = '';
+                    if ($field_type[$key] == 5) {
+                        $select = $sigleSelect[$key];
+                    }
+                    $tmp = [
+                        'type_id' => $menu->id,
+                        'field_name' => $value,
+                        'is_sensitive' => $is_sensitive[$key],
+                        'field_type' => $field_type[$key],
+                        'order' => $count + $key + 1,
+                        'extral' => $select
+                    ];
+                    $container = Container::create($tmp);
+                    foreach ($contentUids as $uid) {
+                        Content::create([
+                            'container_id' => $container->id,
+                            'field_value' => '',
+                            'uuid' => $uid->uuid
+                        ]);
+                    }
+                }
             }
             return redirect(route('model.show', ['model' => $model]));
         }
@@ -159,6 +185,14 @@ class ModelController extends Controller
             return back();
         }
 
+        $lastContent = Content::orderBy('id', 'desc')->select('uuid')->first();
+        $lastUid = 0;
+
+        if ($lastContent) {
+            $lastUid = $lastContent->uuid;
+        }
+        $uuid = $lastUid + 1;
+
         $field_name = $request->all('field_name');
 
         foreach ($field_name['field_name'] as $key => $value) {
@@ -176,7 +210,8 @@ class ModelController extends Controller
             }
             $data = [
                 'container_id' => $key,
-                'field_value' => $_value ?? '*'
+                'field_value' => $_value ?? '*',
+                'uuid' => $uuid
             ];
 
             Content::create($data);
@@ -230,9 +265,33 @@ class ModelController extends Controller
         }
         $contents = Content::with('container')->find($ids);
 
+        $mContainer = $menu->container->toArray();
+
+        $diff = count($mContainer) - count($contents);
+        if ($diff) {
+            $diffArray = array_slice($mContainer, -($diff));
+            $diffContent = collect($contents);
+
+            foreach ($diffArray as $d) {
+                $diffContent->push([
+                    'id' => '',
+                    'container_id' => $d['id'],
+                    'field_value' => '',
+                    'container' => collect($d)
+                ]);
+            }
+            $contents = $diffContent->all();
+        }
+        $sorted = collect($contents)->sortBy(function ($item, $key) {
+            return $item['container']['order'];
+        });
+
+        $contents = $sorted->all();
+
         return view('models.update-value', compact(['menu', 'contents', 'model']));
     }
 
+    //更新字段值
     public function update(Request $request, $model)
     {
         if (is_null($file_name = $request->get('field_name'))) {
@@ -240,12 +299,73 @@ class ModelController extends Controller
             return back();
         }
 
-        foreach ($file_name as $key => $item) {
+        $field_name = $request->all('field_name');
+
+        foreach ($field_name['field_name'] as $key => $item) {
             if (!is_null($item)) {
-                Content::where('id', $key)->update(['field_value' => $item]);
+                $content = Content::where('id', $key)->first();
+                if (is_array($item)) {
+                    $_value = [];
+                    foreach ($item as $_item) {
+                        $name = $_item->getClientOriginalName();
+                        $path = $_item->storeAs('/', $name, 'files');
+                        $_value [] = '/uploads/' . $path;
+                    }
+
+                    $origin = json_decode($content->field_value, true);
+                    $_value = is_array($origin) ? json_encode(array_merge($_value, $origin)) : json_encode($_value);
+                } else {
+                    $_value = $item;
+                }
+                $content->field_value = $_value;
+                $content->save();
             }
         }
         admin_toastr('更新成功', 'success');
         return redirect(route('model.show', ['model' => $model]));
     }
+
+    //修改字段排序
+    public function sortField($model)
+    {
+        $menu = Menu::with('container')->where('uri', '/model/' . $model)->first();
+        if (is_null($menu)) {
+            admin_toastr('错误的模块', 'error');
+            return redirect(route('home'));
+        }
+        return view('models.sort-field', compact(['menu', 'model']));
+    }
+
+    public function storeSortField(Request $request, $model)
+    {
+        $menu = Menu::with('container')->where('uri', '/model/' . $model)->first();
+        if (is_null($menu)) {
+            return response()->json([
+                'status' => false,
+                'message' => '参数错误!'
+            ]);
+        }
+        if (is_null($order = $request->get('_order'))) {
+            return response()->json([
+                'status' => false,
+                'message' => '参数错误!'
+            ]);
+        }
+        $this->parseOrder(json_decode($order, true));
+
+        return response()->json([
+            'status' => true,
+            'message' => '修改成功!'
+        ]);
+    }
+
+    private function parseOrder($order)
+    {
+        foreach ($order as $key => $item) {
+            $orders[] = ['id' => $item['id'], 'order' => $key];
+            Container::where('id', $item['id'])->update(['order' => $key]);
+        }
+
+    }
+
 }

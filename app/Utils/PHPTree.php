@@ -101,7 +101,7 @@ class PHPTree{
     {
         if  (!self::$menuTrees){
             if (is_null($menus)) {
-                $menus = Menu::orderBy('order', 'desc')->get()->toArray();
+                $menus = Menu::orderBy('order', 'asc')->get()->toArray();
             }
             //按照顶级菜单分类，父id为key,子id为子数组的key
             $tree = self::getTree($menus);
@@ -145,43 +145,33 @@ class PHPTree{
 
     private static function getMenus($menus)
     {
-        static $option = '';
-        static $li = '';
-        static $leftMenus = '';
+        static $option = ''; //添加菜单的选项
+        static $li = ''; //菜单选项页面
+        static $leftMenus = ''; //左边菜单
         foreach ($menus as $key => $value) {
             $_tmp = '';
             for ($i = 0; $i < $value['level']; $i ++) {
                 $_tmp .= '&nbsp;&nbsp;&nbsp;&nbsp;';
             }
             $option .= '<option value="'.$value['id'].'">'.$_tmp.$value['title'].'</option>';
-            $li .= '<li class="list-group-item">'.$_tmp.'<i class="fa '.$value['icon'].'"></i>'.$value['title'].'</li>';
-            
             if (isset($value['son'])){
+                $li .= '<li class="list-group-item dd-item" data-id="'.$value['id'].'"><div class="dd-handle"><i class="fa '.$value['icon'].'"></i>'.$value['title'].'<span class="pull-right dd-nodrag"><a href="/settings/menu/'.$value['id'].'/edit"><i class="fa fa-edit"></i></a><a href="javascript:void(0);" data-id="'.$value['id'].'" class="tree_branch_delete"><i class="fa fa-trash"></i></a>
+        </span></div>';
+                $li .='<ol class="dd-list">';
+
                 $leftMenus .= '<li><a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><i class="fa '.$value['icon'].' menu-header-icon"></i><span>'.$value['title'].'</span></a>';
                 $leftMenus .= '<ul class="ml-menu">';
                 $sortSon = collect($value['son'])->sortBy('order');
                 self::getMenus($sortSon->values()->all());
                 $leftMenus .= '</ul></li>';
+
+                $li .= '</ol></li>';
             } else {
                 $leftMenus .= '<li><a href="'.$value['uri'].'"><i class="fa '.$value['icon'].' menu-header-icon"></i><span>'.$value['title'].'</span></a></li>';
+                $li .= '<li class="list-group-item dd-item" data-id="'.$value['id'].'"><div class="dd-handle"><i class="fa '.$value['icon'].'"></i>'.$value['title'].'<span class="pull-right dd-nodrag"><a href="/settings/menu/'.$value['id'].'/edit"><i class="fa fa-edit"></i></a><a href="javascript:void(0);" data-id="'.$value['id'].'" class="tree_branch_delete"><i class="fa fa-trash"></i></a>
+        </span></div></li>';
             }
         }
         return [$option,$li,$leftMenus];
-    }
-
-    private static function getMenuList($menus)
-    {
-        static $li = '';
-        foreach ($menus as $key => $value) {
-            $_tmp = '';
-            for ($i = 0; $i < $value['level']; $i ++) {
-                $_tmp .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-            }
-            $li .= '<li>'.$_tmp.$value['title'].'</li>';
-            if (isset($value['son'])){
-                self::getMenuList($value['son']);
-            }
-        }
-        return $li;
     }
 }

@@ -20,9 +20,11 @@ class CreateContainersTable extends Migration
             $table->smallInteger('is_sensitive')->default(0);
 
             $table->integer('field_type')->default(1);
-            
+
+            $table->integer('order')->default(0);
+            $table->string('extral')->nullable(); //用来存放不同类型的值
             $table->index(['type_id']);
-            $table->timestamps();
+
         });
     }
 

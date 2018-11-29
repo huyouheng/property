@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,6 +34,9 @@
     <link rel="stylesheet" href="{{ asset("/vendor/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/vendor/font-awesome/css/font-awesome.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/vendor/sweetalert/dist/sweetalert.css") }}">
+    <link rel="stylesheet" href="{{ asset("/vendor/nestable/nestable.css") }}">
+    <link rel="stylesheet"
+          href="{{ asset("/vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css") }}">
     <!-- header js -->
     <!-- Jquery Core Js -->
     <script src="/js/jquery.min.js"></script>
@@ -44,10 +47,14 @@
     <script src="{{ asset('/vendor/jquery-pjax/jquery.pjax.js' )}}"></script>
     <script src="{{ asset ("/vendor/nprogress/nprogress.js") }}"></script>
     <script src="{{ asset ("/vendor/toastr/build/toastr.min.js") }}"></script>
-    <script src="/vendor/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
+    <script src="{{ asset('/vendor/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js') }}"></script>
+    <script src="{{ asset("/vendor/nestable/jquery.nestable.js") }}"></script>
+    <script src="{{ asset ("/vendor/moment/min/moment-with-locales.js") }}"></script>
+    <script src="{{ asset("/vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js") }}"></script>
+
     <style>
         .navbar-header {
-            padding: 0px 0px 0px 7px;
+            padding: 0 0 0 7px;
         }
 
         .navbar-header .bars:before, .navbar-header .bars:after {
@@ -59,7 +66,7 @@
         }
 
         section.content {
-            margin: 36px 15px 0 240px;
+            /*margin: 36px 15px 0 240px;*/
         }
 
         .sidebar {
@@ -114,13 +121,15 @@
             width: 80px;
             line-height: 35px;
         }
-        .menu-header-icon{
-            font-size: 20px;
-            margin-top: 1px;
-            margin-right: 10px; 
-            margin-left: 2px;
+
+        .menu-header-icon {
+            /*font-size: 20px;*/
+            /*margin-top: 1px;*/
+            /*margin-right: 10px; */
+            /*margin-left: 2px;*/
         }
-        .operation{
+
+        .operation {
             width: 25px;
             height: 23px;
             /*position: absolute;*/
@@ -129,6 +138,22 @@
             opacity: 0;
         }
 
+        .sidebar-menu li a {
+
+        }
+
+        .sidebar .menu .list i.material-icons {
+            margin-top: 6px;
+        }
+
+        .sidebar-menu li a i {
+            width: 20px;
+            margin-top: 10px;
+        }
+
+        .sidebar-menu li a span {
+            flex: 1;
+        }
 
     </style>
 </head>
@@ -170,7 +195,7 @@
     @include('components/right-aside-bar')
 </section>
 <section class="content">
-    <div class="container-fluid" id="pjax-container" style="margin: 0;padding: 0;">
+    <div class="container-fluid" id="pjax-container" style="padding: 0;">
         <section class="content-header">
             <h1>
                 @yield('breadcrumb_title')
@@ -181,7 +206,7 @@
             <!-- breadcrumb end -->
 
         </section>
-        <section style="padding: 15px;margin-top: 5px;">
+        <section style="padding: 15px;">
             @yield('content')
             @include('components.toastr')
         </section>
@@ -198,24 +223,54 @@
 <script src="/js/demo.js"></script>
 <script src="/js/bootstrap-select.js"></script>
 <script src="/js/initPjax.js"></script>
-<script src="{{ asset ("/vendor/sweetalert/dist/sweetalert.min.js") }}"></script>
+<script src="{{ asset ("/vendor/sweetalert/dist/sweetalert2.all.min.js") }}"></script>
+
+
 <script>
+    // $('.sidebar-menu li:not(.treeview) > a').on('click', function () {
+    //     var $parent = $(this).parent().addClass('active');
+    //     $parent.siblings('.treeview.active').find('> a').trigger('click');
+    //     $parent.siblings().removeClass('active').find('li').removeClass('active');
+    // });
+
+    $('.sidebar-menu li').on('click', function () {
+        var $parent = $(this).addClass('active');
+        $('.sidebar-menu li').not($(this)).removeClass('active');
+
+    });
+
     function LA() {
     }
 
     LA.token = "{{ csrf_token() }}";
-    function deleteTip(obj)
-    {
+
+    function deleteTip(obj) {
         swal({
             title: "确认删除?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "确认",
-            closeOnConfirm: false,
-            cancelButtonText: "取消"
-        },obj);
+            cancelButtonText: "取消",
+        }).then(obj).catch(swal.noop);
     }
+
+    function inputTip(obj)
+    {
+        swal({
+            title: '输入单选值',
+            input: 'textarea',
+            inputPlaceholder: '一行一个选项',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "确认",
+            cancelButtonText: "取消",
+            allowEnterKey: false,
+            focusConfirm: false,
+        }).then(obj).catch(swal.noop)
+    }
+
 </script>
 @yield('script')
 </body>

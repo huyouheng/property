@@ -8,6 +8,8 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class MediaUtil
 {
@@ -27,10 +29,10 @@ class MediaUtil
         'video' => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
     ];
 
-    public function __construct($path = 'users')
+    public function __construct($path = '/')
     {
         $this->path = $path;
-        $this->storage = Storage::disk('users');
+        $this->storage = Storage::disk($path);
 
     }
 

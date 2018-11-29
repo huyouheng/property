@@ -9,12 +9,10 @@ class Content extends Model
     protected $table = 'contents';
 
     protected $fillable = [
-        'container_id','field_value'
+        'container_id','field_value', 'uuid'
     ];
 
-    protected $hidden = [
-        'created_at', 'updated_at'
-    ];
+    public $timestamps = false;
 
     public function container()
     {

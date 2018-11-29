@@ -13,19 +13,21 @@ class Menu extends Model
         'parent_id', 'order', 'title', 'icon', 'uri'
     ];
 
+    public $timestamps = false;
+
     public function children()
     {
-        return $this->hasMany(self::class,'parent_id','id');
+        return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
     public function container()
     {
-    	return $this->hasMany(Container::class,'type_id','id')->orderBy('id');
+        return $this->hasMany(Container::class, 'type_id', 'id')->orderBy('order');
     }
 
     public function containerAndContent()
     {
-        return $this->hasMany(Container::class,'type_id','id')->with('contents')
-            ->orderBy('id');
+        return $this->hasMany(Container::class, 'type_id', 'id')->with('contents')
+            ->orderBy('order');
     }
 }

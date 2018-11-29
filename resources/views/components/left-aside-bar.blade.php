@@ -12,13 +12,13 @@
             <div class="btn-group user-helper-dropdown">
                 <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                 <ul class="dropdown-menu pull-right">
-                    <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                    <li><a href="{{route('home')}}"><i class="material-icons">person</i>个人中心</a></li>
                     <li role="seperator" class="divider"></li>
                     <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
                     <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
                     <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
                     <li role="seperator" class="divider"></li>
-                    <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                    <li><a href="javascript:void(0);"><i class="material-icons">input</i>退出</a></li>
                 </ul>
             </div>
         </div>
@@ -26,23 +26,29 @@
     <!-- #User Info -->
     <!-- Menu -->
     <div class="menu">
-        <ul class="list">
+        <ul class="list sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li>
                 <a href="/home">
-                    <i class="material-icons">home</i>
+                    <i class="fa fa-home"></i>
                     <span>Home</span>
                 </a>
             </li>
             {!! $leftMenus !!}
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="material-icons">home</i>
+                    <i class="fa fa-tasks"></i>
                     <span>后台设置</span>
                 </a>
                 <ul class="ml-menu">
                     <li>
                         <a href="{{route('settings',['tag'=>'menu'])}}" class=" waves-effect waves-block">后台菜单</a>
+                    </li>
+                    <li>
+                        <a href="{{route('settings',['tag'=>'role'])}}" class=" waves-effect waves-block">角色管理</a>
+                    </li>
+                    <li>
+                        <a href="{{route('settings',['tag'=>'permission'])}}" class=" waves-effect waves-block">权限管理</a>
                     </li>
                 </ul>
             </li>

@@ -1,0 +1,169 @@
+iziToast.show({
+    id: null, 
+    class: '',
+    title: '',
+    titleColor: '',
+    titleSize: '',
+    titleLineHeight: '',
+    message: '',
+    messageColor: '',
+    messageSize: '',
+    messageLineHeight: '',
+    backgroundColor: '',
+    theme: 'light', // dark
+    color: '', // blue, red, green, yellow
+    icon: '',
+    iconText: '',
+    iconColor: '',
+    iconUrl: null,
+    image: '',
+    imageWidth: 50,
+    maxWidth: null,
+    zindex: null,
+    layout: 1,
+    balloon: false,
+    close: true,
+    closeOnEscape: false,
+    closeOnClick: false,
+    displayMode: 0, // once, replace
+    position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+    target: '',
+    targetFirst: true,
+    timeout: 5000,
+    rtl: false,
+    animateInside: true,
+    drag: true,
+    pauseOnHover: true,
+    resetOnHover: false,
+    progressBar: true,
+    progressBarColor: '',
+    progressBarEasing: 'linear',
+    overlay: false,
+    overlayClose: false,
+    overlayColor: 'rgba(0, 0, 0, 0.6)',
+    transitionIn: 'fadeInUp',
+    transitionOut: 'fadeOut',
+    transitionInMobile: 'fadeInUp',
+    transitionOutMobile: 'fadeOutDown',
+    buttons: {},
+    inputs: {},
+    onOpening: function () {},
+    onOpened: function () {},
+    onClosing: function () {},
+    onClosed: function () {}
+});
+
+
+1. 找到jetty根目录下的 /etc/webdefault.xml
+
+2. 找到<servlet-name>default</servlet-name>下的dirAllowed选项   
+
+    <init-param>
+      <param-name>dirAllowed</param-name>
+      <param-value>true</param-value>
+    </init-param>
+
+    把true改成false
+--------------------- 
+作者：yf.z 
+来源：CSDN 
+原文：https://blog.csdn.net/zyf_balance/article/details/53509262 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+
+
+Vue.js is detected on this page. Open DevTools and look for the Vue panel.
+2018年06月07日 22:18:32 tangxiujiang 阅读数：3203 标签： Vue.js is detected on this pag  更多
+个人分类： vue
+版权声明：本文为博主原创文章，未经博主允许不得转载。	https://blog.csdn.net/tangxiujiang/article/details/80616065
+要解决 这个问题，则是因为没有开启debug  mode，所以要对vue开启debug  mode
+
+在main.js中书写下面形式：
+
+import Vue from 'vue'
+Vue.config.devtools = true
+则可以在浏览器调试vue代码
+
+
+
+
+这里介绍如何使用npm一键安装package.json里的dependencies 和devDependencies里的所有模块。
+npm install 默认安装package.json中的所有模块。
+如果只想安装dependencies中的内容，可以使用--dependencies字段：
+
+npm install --dependencies
+同样只想安装devDependencies中的内容，可以使用--devDependencies字段：
+
+npm install --devDependencies
+这里安装的package.json中所有依赖的模块，都是package.json中指定的版本。如果需要安装最新的版本则要：
+
+npm update <package_name>//要安装的模块的名字
+--------------------- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1 |         0 |     0 | 电脑     | fa-amazon     | /model/dian-nao
+  2 |         0 |     0 | 显示器   | fa-amazon     | /model/xian-shi-qi
+  3 |         0 |     0 | 手机     | fa-angle-up   | /model/shou-ji
+  4 |         1 |     0 | 员工电脑 | fa-align-left | /model/yuan-gong-dian-nao
+  5 |         1 |     0 | 服务器   | fa-adn        | /model/fu-wu-qi
+  6 |         3 |     0 | 小米     | fa-angellist  | /model/xiao-mi
+  7 |         0 |     0 | 华为     | fa-angellist  | /model/hua-wei
+
+
+
+1 |         0 |     0 | 电脑     | fa-amazon     | /model/dian-nao
+	4 |         1 |     0 | 员工电脑 | fa-align-left | /model/yuan-gong-dian-nao
+	5 |         1 |     0 | 服务器   | fa-adn        | /model/fu-wu-qi
+
+2 |         0 |     0 | 显示器   | fa-amazon     | /model/xian-shi-qi
+3 |         0 |     0 | 手机     | fa-angle-up   | /model/shou-ji
+	6 |         3 |     0 | 小米     | fa-angellist  | /model/xiao-mi
+	7 |         0 |     0 | 华为     | fa-angellist  | /model/hua-wei
+
+
+
+
+
+
+ id | parent_id | order |   title    |     icon      |            uri            
+----+-----------+-------+------------+---------------+---------------------------
+  1 |         0 |     0 | 电脑       | fa-amazon     | /model/dian-nao
+  2 |         0 |     0 | 显示器     | fa-amazon     | /model/xian-shi-qi
+  3 |         0 |     0 | 手机       | fa-angle-up   | /model/shou-ji
+  4 |         1 |     0 | 员工电脑   | fa-align-left | /model/yuan-gong-dian-nao
+  5 |         1 |     0 | 服务器     | fa-adn        | /model/fu-wu-qi
+  6 |         3 |     0 | 小米       | fa-angellist  | /model/xiao-mi
+  7 |         0 |     0 | 华为       | fa-angellist  | /model/hua-wei
+  8 |         4 |     0 | 个人笔记本 | fa-adjust     | /model/ge-ren-bi-ji-ben
+
+
+
+
+
+

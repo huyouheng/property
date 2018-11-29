@@ -19,16 +19,25 @@ id type_id field_name field_value is_sensitive is_show u_verify
 
 
 # container
-id type_id field_name  is_sensitive is_show 
- 1    2       name        0            1
- 2    2       age         0            1
- 3    2       sex         0            1
+id type_id field_name  is_sensitive field_type 
+ 1    2       name        0        
+ 2    2       age         0        
+ 3    2       sex         0        
 
 # contents
-id container_id field_value
+id container_id field_value  
 1     1          huyouheng
 2     2             23
 3     3             1
 4     1          test
 5     2             24
 6     3             0
+
+
+field_type 
+    1 文本
+    2 文件上传
+    3 关联模型
+    4 时间选择框
+    5 单选
+    6 多选

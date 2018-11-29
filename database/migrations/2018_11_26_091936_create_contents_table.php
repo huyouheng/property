@@ -16,10 +16,11 @@ class CreateContentsTable extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('container_id')->unsigned();
-            $table->string('field_value');
+            $table->text('field_value');
 
+            $table->integer('uuid')->default(0);
             $table->index(['container_id']);
-            $table->timestamps();
+
         });
     }
 
