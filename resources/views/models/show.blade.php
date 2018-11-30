@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumb_title',$menu->title);
+@section('breadcrumb_title',$menu->title)
 @section('content')
     <style>
         .pagination {

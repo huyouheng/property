@@ -67,6 +67,7 @@
                                        style="flex: 1;">
                                 <span class="input-group-addon" style="background: #fff;border: 0;"></span>
                             </div>
+
                         </div>
                         <div class="panel-footer text-center">
                             <button type="reset" class="btn btn-info btn-sm waves-effect">撤销</button>

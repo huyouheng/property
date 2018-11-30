@@ -40,6 +40,7 @@ class UtilsController extends Controller
                 'message' => '参数错误!'
             ]);
         }
+        Content::where('container_id',$container->id)->delete();
         $container->delete();
         return response()->json([
             'status' => true,

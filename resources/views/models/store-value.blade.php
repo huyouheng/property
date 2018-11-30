@@ -3,7 +3,7 @@
 @section('content')
     @inject('metrics', 'App\Utils\MetricsUtil')
     <div class="row">
-        <div class="col-md-12 box" style="padding: 0;">
+        <div class="col-md-12 box box-success" style="padding: 0;">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a class="btn btn-primary btn-xs waves-effect" href="javascript:history.back();">

@@ -25,6 +25,10 @@ Route::group([], function(){
 	Route::put('/settings/menu/{id}','SettingController@updateMenu')->name('model.menu.update');
 	Route::delete('/settings/menu/{id}','SettingController@deleteMenu');
 	Route::post('/settings/role','SettingController@storeRole')->name('settings.store.role');
+	Route::get('/role-create','SettingController@createRole')->name('settings.create.role');
+	Route::delete('/delete-role/{id}','SettingController@deleteRole');
+
+    Route::get('/permission-create','SettingController@createPermission')->name('settings.create.permission');
 	Route::post('/settings/permission','SettingController@storePermission')->name('settings.store.permission');
 });
 
@@ -49,7 +53,7 @@ Route::group([], function(\Illuminate\Routing\Router $router){
     $router->post('/store-sort-field/{model}','ModelController@storeSortField');
 
     $router->get('/is-sensitive/{id}','UtilsController@isSensitive')->name('sensitive.field');
-    $router->get('/del-field/{id}','UtilsController@delField')->name('delete.field');
+    $router->get('/del-field/{id}','UtilsController@delField')->name('delete.field');//删除字段
     $router->post('/update-menu-tree','UtilsController@updateMenuTree');
     $router->delete('/trash-extral', 'UtilsController@trashExtral');
 

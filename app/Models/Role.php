@@ -11,4 +11,12 @@ class Role extends LaratrustRole
     protected $fillable = [
         'description', 'display_name','name'
     ];
+
+    protected $hidden = [
+        'created_at','updated_at'
+    ];
+    public function permission()
+    {
+        return $this->belongsToMany(Permission::class,'permission_role','permission_id','role_id');
+    }
 }

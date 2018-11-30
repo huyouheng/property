@@ -28,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function folder()
+    {
+        return $this->hasMany(Ufolder::class,'user_id','id');
+    }
 }

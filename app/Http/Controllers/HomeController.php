@@ -27,12 +27,16 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $content = Content::where('field_value',$user->email)->first();
-        $uuid = $content->uuid;
-        $values = Content::with('container')->where('uuid',$uuid)->get();
-        $value = collect($values)->sortBy(function ($item, $key) {
-            return $item['container']['order'];
-        });
-        $values = $value->all();
+        $values = [];
+        if ($content){
+
+            $uuid = $content->uuid;
+            $values = Content::with('container')->where('uuid',$uuid)->get();
+            $value = collect($values)->sortBy(function ($item, $key) {
+                return $item['container']['order'];
+            });
+            $values = $value->all();
+        }
 
         return view('home',compact(['user','values']));
     }

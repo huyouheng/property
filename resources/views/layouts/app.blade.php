@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{{ asset("/vendor/nestable/nestable.css") }}">
     <link rel="stylesheet"
           href="{{ asset("/vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css") }}">
+    <link rel="stylesheet" href="{{ asset("/vendor/iCheck/square/blue.css") }}">
     <!-- header js -->
     <!-- Jquery Core Js -->
     <script src="/js/jquery.min.js"></script>
@@ -51,6 +52,7 @@
     <script src="{{ asset("/vendor/nestable/jquery.nestable.js") }}"></script>
     <script src="{{ asset ("/vendor/moment/min/moment-with-locales.js") }}"></script>
     <script src="{{ asset("/vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js") }}"></script>
+    <script src="{{ asset("/vendor/iCheck/icheck.min.js")}}"></script>
 
     <style>
         .navbar-header {
@@ -66,7 +68,7 @@
         }
 
         section.content {
-            /*margin: 36px 15px 0 240px;*/
+            margin: 55px 15px 0 240px;
         }
 
         .sidebar {
@@ -111,6 +113,10 @@
             margin-bottom: 20px;
             width: 100%;
             box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .box.box-success {
+            border-top-color: #00a65a;
         }
 
         .box.box-success {
@@ -196,7 +202,7 @@
 </section>
 <section class="content">
     <div class="container-fluid" id="pjax-container" style="padding: 0;">
-        <section class="content-header">
+        <div class="content-header">
             <h1>
                 @yield('breadcrumb_title')
                 <small>列表</small>
@@ -205,11 +211,11 @@
             <!-- breadcrumb start -->
             <!-- breadcrumb end -->
 
-        </section>
-        <section style="padding: 15px;">
+        </div>
+        <div style="padding: 15px;">
             @yield('content')
             @include('components.toastr')
-        </section>
+        </div>
     </div>
 </section>
 
@@ -225,13 +231,7 @@
 <script src="/js/initPjax.js"></script>
 <script src="{{ asset ("/vendor/sweetalert/dist/sweetalert2.all.min.js") }}"></script>
 
-
 <script>
-    // $('.sidebar-menu li:not(.treeview) > a').on('click', function () {
-    //     var $parent = $(this).parent().addClass('active');
-    //     $parent.siblings('.treeview.active').find('> a').trigger('click');
-    //     $parent.siblings().removeClass('active').find('li').removeClass('active');
-    // });
 
     $('.sidebar-menu li').on('click', function () {
         var $parent = $(this).addClass('active');
@@ -255,8 +255,7 @@
         }).then(obj).catch(swal.noop);
     }
 
-    function inputTip(obj)
-    {
+    function inputTip(obj) {
         swal({
             title: '输入单选值',
             input: 'textarea',

@@ -2,7 +2,7 @@
 @section('breadcrumb_title',$menu->title);
 @section('content')
     <div class="row">
-        <div class="col-md-12 box" style="padding: 0;">
+        <div class="col-md-12 box box-info" style="padding: 0;">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a class="btn btn-primary btn-xs waves-effect" href="javascript:history.back();">

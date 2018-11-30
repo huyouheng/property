@@ -12,15 +12,6 @@
     <link rel="stylesheet" href="{{ asset("/vendor/font-awesome/css/font-awesome.min.css") }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset("/vendor/AdminLTE/dist/css/AdminLTE.min.css") }}">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset("/vendor/AdminLTE/plugins/iCheck/square/blue.css") }}">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body class="hold-transition login-page"
       style="background-image: url('/images/login-bg.png');background-repeat: no-repeat;background-size: cover;">
@@ -36,30 +27,24 @@
             @csrf
             <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
 
-                @if($errors->has('username'))
-                    @foreach($errors->get('username') as $message)
-                        <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}
-                        </label>
-                        <br/>
-                    @endforeach
-                @endif
-
                 <input type="input" class="form-control" placeholder="{{ trans('admin.username') }}" name="email"
                        value="{{ old('username') }}" autofocus>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
-
-                @if($errors->has('password'))
-                    @foreach($errors->get('password') as $message)
-                        <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}
-                        </label>
-                        <br/>
-                    @endforeach
+            @if ($errors->has('email'))
+                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
                 @endif
 
+            </div>
+            <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
                 <input type="password" class="form-control" placeholder="{{ trans('admin.password') }}" name="password">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                @if ($errors->has('password'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                @endif
             </div>
             <div class="row">
 
@@ -81,16 +66,5 @@
 <script src="{{ asset("/vendor/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js")}}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset("/vendor/AdminLTE/bootstrap/js/bootstrap.min.js")}}"></script>
-<!-- iCheck -->
-<script src="{{ asset("/vendor/AdminLTE/plugins/iCheck/icheck.min.js")}}"></script>
-<script>
-    $(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
-        });
-    });
-</script>
 </body>
 </html>

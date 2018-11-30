@@ -32,7 +32,7 @@ class MediaUtil
     public function __construct($path = '/')
     {
         $this->path = $path;
-        $this->storage = Storage::disk($path);
+        $this->storage = Storage::disk('files');
 
     }
 
@@ -260,5 +260,17 @@ class MediaUtil
     public function move($new)
     {
         return $this->storage->move($this->path, $new);
+    }
+
+    public static function parseSize($bytes)
+    {
+
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+        for ($i = 0; $bytes > 1024; $i++) {
+            $bytes /= 1024;
+        }
+
+        return round($bytes, 2) . ' ' . $units[$i];
     }
 }

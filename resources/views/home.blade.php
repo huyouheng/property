@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumb_title',$user->name);
+@section('breadcrumb_title',$user->name)
 @section('content')
     <style>
         .pagination {
@@ -22,9 +22,8 @@
         <div class="col-md-12 box" style="padding: 0;">
             <div class="panel panel-default" style="padding: 0;margin: 0;">
                 <div class="panel-heading">
-
                 </div>
-                <div class="panel-body table-responsive">
+                <div class="panel-body">
                     <table class="table">
                         @foreach($values as $value)
                             <tr>
@@ -32,7 +31,7 @@
                                 <td>
                                     @if($value['container']['is_sensitive'] == 1)
                                         <span title="敏感数据">...</span>
-                                        @else
+                                    @else
                                         @if($value['container']['field_type']== 2)
                                             {!! $metrics->parseFilesList($value['field_value'],$value['id'],'') !!}
                                         @else
@@ -48,5 +47,22 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-12 box" style="padding: 0;">
+            <div class="panel panel-default" style="padding: 0;margin: 0;">
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                    <label for="">启用文件管理系统: </label> <input type="checkbox">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    </script>
 @endsection

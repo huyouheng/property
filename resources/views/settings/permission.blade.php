@@ -2,11 +2,14 @@
 @section('breadcrumb_title', '权限');
 @section('content')
     <div class="row">
-        <div class="col-md-6" style="padding: 0;">
+        <div class="col-md-12" style="padding: 0;">
             <div class="box">
-                <div class="panel" style="padding: 0;margin: 0;">
+                <div class="panel panel-default" style="padding: 0;margin: 0;">
                     <div class="panel-heading">
-                        已有权限
+                        <a class="btn btn-primary btn-xs waves-effect"
+                           href="{{route('settings.create.permission')}}">
+                            <i class="fa fa-plus-square-o"></i>&nbsp;新增
+                        </a>
                     </div>
                     <div class="panel-body dd" id="menu-nested-list">
                         <table class="table table-hover">
@@ -15,6 +18,7 @@
                                 <th>标识</th>
                                 <th>名称</th>
                                 <th>描述</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -23,48 +27,22 @@
                                     <td>{{$permission->name}}</td>
                                     <td>{{$permission->display_name}}</td>
                                     <td>{{$permission->description}}</td>
-                                    <td></td>
+                                    <td>
+                                        <a href=""
+                                           class="waves-effect">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" data-id="{{$permission->id}}"
+                                           class="waves-effect trash-permission-row">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="box box-success">
-                <form action="{{route('settings.store.permission')}}" method="post" pjax-container>
-                    @csrf
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span style="font-size: 18px;">新增</span>
-                        </div>
-                        <div class="panel-body">
-                            <div style="display: flex;margin:10px 0">
-                                <label for="" class="menu-label">标识</label>
-                                <input type="text" name="name" onblur="parsePath(this.value)" required
-                                       class="form-control" style="flex: 1;">
-                            </div>
-                            <div style="display: flex;margin:10px 0">
-                                <label for="" class="menu-label">名称</label>
-                                <input type="text" name="display_name" placeholder="可选" class="form-control"
-                                       style="flex: 1;">
-                            </div>
-                            <div style="display: flex;margin:10px 0">
-                                <label for="" class="menu-label">描述</label>
-                                <input type="text" name="description" placeholder="可选" class="form-control"
-                                       style="flex: 1;">
-                            </div>
-                        </div>
-                        <div class="panel-footer text-center">
-                            <button type="reset" class="btn btn-info btn-sm waves-effect">撤销</button>
-                            <button type="submit" class="btn btn-warning btn-sm waves-effect"
-                                    style="margin-right: 20px;">添加
-                            </button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

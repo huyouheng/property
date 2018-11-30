@@ -11,4 +11,8 @@ class Permission extends LaratrustPermission
     protected $fillable = [
         'description', 'display_name', 'name'
     ];
+
+    protected $hidden = [
+        'pivot','created_at','updated_at'
+    ];
 }
